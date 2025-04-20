@@ -34,7 +34,7 @@ app.use(
     cookie: {
       domain:'.onrender.com',
       secure: true,          // MUST be true when using HTTPS (Render is HTTPS)
-      sameSite: 'none',      // MUST be 'none' to allow cross-origin
+      sameSite: 'None',      // MUST be 'none' to allow cross-origin
       httpOnly: true,        // Recommended to prevent XSS
       maxAge: 24 * 60 * 60 * 1000 // Optional: 1 day
     }
