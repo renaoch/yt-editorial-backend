@@ -52,7 +52,7 @@ const googleAuthController = {
       console.log("Google OAuth successful");
       console.log("User returned from Google:", user);
       console.log("Info returned from Google:", info);
-
+ req.user = user;
       req.logIn(user, async (err) => {
         if (err) {
           console.error("Login error occurred");
