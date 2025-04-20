@@ -87,7 +87,7 @@ passport.use(
 
 passport.serializeUser((user, done) => {
   const userId = user.id || user._id;
-
+console.log("userID inside passport serializeUser",userId);
   if (!userId) {
     console.error(" Cannot serialize user: ", user);
     return done(new Error("User ID not found in serializeUser"), null);
@@ -103,8 +103,8 @@ passport.deserializeUser(async (id, done) => {
       .select("*")
       .eq("_id", id)
       .single();
+console.log("user inside passport serializeUser",user);
 
-    console.log("User:", user);
 
     if (error || !user) {
       console.error(" Failed to deserialize user:", error || "No user found");
