@@ -18,7 +18,7 @@ app.use(express.json());
 
 // CORS options
 const corsOptions = {
-  origin: ["http://localhost:8080", "http://localhost:5173"], // Use dynamic frontend URL from environment variables
+  origin: ["https://yt-editorial-backend.onrender.com", "http://localhost:5173"], // Use dynamic frontend URL from environment variables
   methods: "GET,POST,PUT,DELETE,PATCH", // Allowed methods
   credentials: true, // Allow cookies and credentials
 };
