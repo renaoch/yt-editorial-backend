@@ -140,7 +140,7 @@ passport.deserializeUser(async (id, done) => {
     } else {
       console.log("User marked as online in deserialize:", updatedUser);
     }
-console.log("data: ",data);
+console.log("data: ",user);
     done(null, updatedUser);
   } catch (err) {
     console.error("Exception during deserializeUser:", err);
