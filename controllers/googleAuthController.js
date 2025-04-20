@@ -1,5 +1,5 @@
 const passport = require("passport");
-require("dotenv").config(); // Load environment variables from .env file
+require("dotenv").config();
 const { createClient } = require("@supabase/supabase-js");
 
 // Initialize Supabase client
@@ -10,7 +10,8 @@ const supabase = createClient(
 
 const googleAuthController = {
   googleAuthCreator: (req, res, next) => {
-    req.session.intendedRole = "creator"; // 👈 Set creator role
+    req.session.intendedRole = "creator"; //  Set creator role
+    console.log(req.session)
     passport.authenticate("google", {
       scope: [
         "profile",
@@ -23,7 +24,7 @@ const googleAuthController = {
   },
 
   googleAuthEditor: (req, res, next) => {
-    req.session.intendedRole = "editor"; // 👈 Set editor role
+    req.session.intendedRole = "editor";
     passport.authenticate("google", {
       scope: ["profile", "email"],
       accessType: "offline",
@@ -43,13 +44,13 @@ const googleAuthController = {
           console.error("Login error:", err);
           return res.redirect("/auth/google");
         }
-
-        // Always update session token (new token with more scopes)
+console.log("login Hit")
+       
         if (info?.accessToken) {
           req.session.accessToken = info.accessToken;
         }
 
-        // Check if this was a scope upgrade
+      
         if (req.session.upgradingScope) {
           delete req.session.upgradingScope;
           return res.redirect(`${process.env.BASE_URL}/app?scopeUpgraded=true`);
@@ -60,7 +61,7 @@ const googleAuthController = {
           const { data, error } = await supabase
             .from("users") // Assuming you have a `users` table
             .select("*")
-            .eq("_id", user._id) // Assuming 'google_id' is the unique identifier
+            .eq("_id", user._id)
             .single();
 
           return res.redirect(`${process.env.FE_BASE_URL}/app`);
