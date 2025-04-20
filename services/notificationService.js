@@ -1,5 +1,4 @@
-const { supabase } = require("../config/supabaseClient"); 
-const { toast } = require("sonner"); 
+const { supabase } = require("../config/supabaseClient");
 
 exports.sendNotification = async ({
   to,
@@ -17,16 +16,17 @@ exports.sendNotification = async ({
     return { error: error.message };
   }
 
-  
+  // Replace the toast with a simple console log or use a different notification system
   if (showToast) {
-    toast(title, { description: body });
+    console.log("New Notification:", title, "-", body);
+    // Or, you could use other ways like email or push notifications if needed
   }
 
   return { success: true };
 };
+
 exports.getNotifications = async (userId) => {
   try {
-    
     const intUserId = parseInt(userId, 10);
 
     if (isNaN(intUserId)) {
@@ -34,25 +34,22 @@ exports.getNotifications = async (userId) => {
       return { error: "Invalid user ID" };
     }
 
-    
     const { data, error } = await supabase
       .from("notifications")
       .select("*")
-      .eq("user_id", intUserId) 
+      .eq("user_id", intUserId)
       .order("created_at", { ascending: false });
 
     if (error) {
-      
       console.error(
         `Error fetching notifications for user ${intUserId}:`,
         error.message
       );
-      return { error: "There was an error fetching notifications." }; 
+      return { error: "There was an error fetching notifications." };
     }
 
-    return { data }; 
+    return { data };
   } catch (err) {
-    
     console.error(
       `Unexpected error fetching notifications for user ${userId}:`,
       err
@@ -64,16 +61,15 @@ exports.getNotifications = async (userId) => {
 };
 
 exports.markNotificationAsRead = async (req, res) => {
-  const notificationId = req.params.id; 
-  const userId = req.user._id; 
+  const notificationId = req.params.id;
+  const userId = req.user._id;
 
   try {
-    
     const { error } = await supabase
       .from("notifications")
-      .update({ is_read: true }) 
-      .eq("id", notificationId) 
-      .eq("user_id", userId); 
+      .update({ is_read: true })
+      .eq("id", notificationId)
+      .eq("user_id", userId);
 
     if (error) {
       console.error("Error marking notification as read:", error.message);
