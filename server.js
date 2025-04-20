@@ -11,7 +11,7 @@ const app = express();
 app.use(morgan("dev"));
 
 // Passport Config
-require("./config/passportConfig"); // This is where you setup the GoogleStrategy
+require("./config/passportConfig");
 
 // Middleware
 app.use(express.json());
@@ -19,12 +19,11 @@ app.use(express.json());
 // CORS options
 const corsOptions = {
   origin: ["https://yt-editorial-backend.onrender.com", "http://localhost:5173","https://yt-editorial-frontend.onrender.com","https://yt-editorial-client-b0w17ezeq-chhetriprems-projects.vercel.app","https://yt-editorial-frontend-3ym07qqca-renaochs-projects.vercel.app","https://yt-editorial-frontend.vercel.app"], // Use dynamic frontend URL from environment variables
-  methods: "GET,POST,PUT,DELETE,PATCH", // Allowed methods
-  credentials: true, // Allow cookies and credentials
+  methods: "GET,POST,PUT,DELETE,PATCH",
+  credentials: true, 
 };
 
-app.use(cors(corsOptions)); // Apply CORS middleware
-
+app.use(cors(corsOptions));
 // Session middleware
 app.use(
   session({
@@ -32,7 +31,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      name:'connect.sid',
+  
       domain:'.onrender.com',
       secure: true,          // MUST be true when using HTTPS (Render is HTTPS)
       sameSite: 'None',      // MUST be 'none' to allow cross-origin
