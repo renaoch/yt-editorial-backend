@@ -32,6 +32,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
+      domain:'.onrender.com',
       secure: true,          // MUST be true when using HTTPS (Render is HTTPS)
       sameSite: 'none',      // MUST be 'none' to allow cross-origin
       httpOnly: true,        // Recommended to prevent XSS
