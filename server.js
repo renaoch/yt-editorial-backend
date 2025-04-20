@@ -31,6 +31,12 @@ app.use(
     secret: process.env.SESSION_SECRET_KEY, // Use dynamic secret key from environment variables
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      secure: true,          // MUST be true when using HTTPS (Render is HTTPS)
+      sameSite: 'none',      // MUST be 'none' to allow cross-origin
+      httpOnly: true,        // Recommended to prevent XSS
+      maxAge: 24 * 60 * 60 * 1000 // Optional: 1 day
+    }
   })
 );
 
