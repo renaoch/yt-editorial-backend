@@ -6,7 +6,7 @@ const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_ANON_KEY
 );
-
+    console.log("callbackurl: ", process.env.BASE_URL + process.env.GOOGLE_CALLBACK_PATH)
 passport.use(
   new GoogleStrategy(
     {
@@ -15,7 +15,7 @@ passport.use(
       callbackURL: process.env.BASE_URL + process.env.GOOGLE_CALLBACK_PATH,
       passReqToCallback: true,
     },
-    console.log("callbackurl: ", process.env.BASE_URL + process.env.GOOGLE_CALLBACK_PATH)
+
     async function (request, accessToken, refreshToken, profile, done) {
       console.log("GoogleStrategy callback hit");
       console.log("Google profile:", profile);
