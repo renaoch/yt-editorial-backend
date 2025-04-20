@@ -9,6 +9,7 @@ const supabase = createClient(
 
 async function getAuthenticatedUser(req, res, next) {
   console.log("isAuth in middleware: ",req.isAuthenticated())
+  console.log("req.user in middleware: ",req.user)
   if (req.isAuthenticated && req.isAuthenticated()) {
       console.log("User is authenticated by session in middleware:", req.user);
     return next(); 
