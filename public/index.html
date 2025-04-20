@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Google Auth Redirect</title>
+  </head>
+  <body>
+    <h2>Login with Google</h2>
+    <button onclick="submit()">Let's go</button>
+
+    <script>
+      const submit = async () => {
+        try {
+          // Redirecting user to the Google OAuth authentication route
+          window.location.href = "/auth/google";
+        } catch (err) {
+          console.error("Error during Google auth:", err);
+          alert("Failed to authenticate. Please try again.");
+        }
+      };
+
+      // Optional: Handle the Google OAuth callback
+      const handleCallback = () => {
+        // You can either use localStorage/sessionStorage to save user data
+        // or dynamically update the page to show the user's name/avatar, etc.
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user) {
+          document.body.innerHTML = `<h1>Welcome, ${user.name}!</h1><img src="${user.avatar}" alt="Profile Picture" />`;
+        }
+      };
+
+      // Check if we are on the callback page after authentication
+      if (window.location.pathname === "/auth/google/callback") {
+        handleCallback();
+      }
+    </script>
+  </body>
+</html>

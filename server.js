@@ -1,0 +1,61 @@
+require("dotenv").config();
+const express = require("express");
+const session = require("express-session");
+const passport = require("passport");
+const path = require("path");
+const connectDB = require("./config/connectDB");
+const morgan = require("morgan");
+const cors = require("cors");
+
+const app = express();
+app.use(morgan("dev"));
+
+// Passport Config
+require("./config/passportConfig"); // This is where you setup the GoogleStrategy
+
+// Middleware
+app.use(express.json());
+
+// CORS options
+const corsOptions = {
+  origin: ["http://localhost:8080", "http://localhost:5173"], // Use dynamic frontend URL from environment variables
+  methods: "GET,POST,PUT,DELETE,PATCH", // Allowed methods
+  credentials: true, // Allow cookies and credentials
+};
+
+app.use(cors(corsOptions)); // Apply CORS middleware
+
+// Session middleware
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET_KEY, // Use dynamic secret key from environment variables
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(express.static(path.join(__dirname, "public")));
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Routes
+const authRoute = require("./routes/authRoute");
+const userRoute = require("./routes/userRoute");
+const videoRoute = require("./routes/videoRoute");
+const messageRoute = require("./routes/messageRoute");
+const notificationRoutes = require("./routes/notificationRoutes");
+
+app.use("/", authRoute);
+app.use("/user", userRoute);
+app.use("/upload", videoRoute);
+app.use("/message", messageRoute);
+app.use("/notify", notificationRoutes);
+
+// Server
+const PORT = process.env.PORT || 8080; // Use dynamic port from environment variables
+app.listen(PORT, () => {
+  connectDB(); // Ensure to connect to the database
+  console.log(`Server running at ${process.env.BASE_URL}:${PORT}`);
+});
