@@ -32,6 +32,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
+      name:'connect.sid',
       domain:'.onrender.com',
       secure: true,          // MUST be true when using HTTPS (Render is HTTPS)
       sameSite: 'None',      // MUST be 'none' to allow cross-origin
