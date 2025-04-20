@@ -15,6 +15,7 @@ passport.use(
       callbackURL: process.env.BASE_URL + process.env.GOOGLE_CALLBACK_PATH,
       passReqToCallback: true,
     },
+    console.log("callbackurl: ", process.env.BASE_URL + process.env.GOOGLE_CALLBACK_PATH)
     async function (request, accessToken, refreshToken, profile, done) {
       console.log("GoogleStrategy callback hit");
       console.log("Google profile:", profile);
