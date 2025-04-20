@@ -61,6 +61,7 @@ const googleAuthController = {
         }
 
         console.log("User logged in successfully");
+          console.log("User after login:", req.user); 
         console.log("Session after login:", req.session);
 
         if (info?.accessToken) {
