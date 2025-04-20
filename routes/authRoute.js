@@ -8,7 +8,7 @@ const { login, signup } = require("../controllers/emailPasswordAuthController");
 
 const { checkUserStatus } = require("../controllers/checkUserController");
 
-router.get("/api/checkUser", getAuthenticatedUser, checkUserStatus);
+router.get("/api/checkUser", checkUserStatus);
 
 module.exports = router;
 
