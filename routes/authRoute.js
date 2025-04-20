@@ -2,13 +2,13 @@ const express = require("express");
 const router = express.Router();
 const googleAuthController = require("../controllers/googleAuthController");
 const ensureRoleNotAssigned = require("../middlewares/checkRole");
-
+const getAuthenticatedUser = require("../middlewares/userAuth");
 
 const { login, signup } = require("../controllers/emailPasswordAuthController");
 
 const { checkUserStatus } = require("../controllers/checkUserController");
 
-router.get("/api/checkUser", checkUserStatus);
+router.get("/api/checkUser",getAuthenticatedUser, checkUserStatus);
 
 module.exports = router;
 
