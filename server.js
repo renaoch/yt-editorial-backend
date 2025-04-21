@@ -6,12 +6,12 @@ const path = require("path");
 const connectDB = require("./config/connectDB");
 const morgan = require("morgan");
 const cors = require("cors");
+const pg = require("connect-pg-simple")(session);
 
 const app = express();
-const cookieParser = require('cookie-parser');
-app.use(cookieParser());
 
-app.use(morgan("dev"));
+
+// app.use(morgan("dev"));
 
 // Passport Config
 require("./config/passportConfig");
@@ -29,13 +29,13 @@ const corsOptions = {
 app.use(cors(corsOptions));
 // Session middleware
 app.use(
-  session({
+  session({store:new pgSession({conString:process.env.SUPABASE_CONNECTION_KEY,createTableIfMissing:true}),
     secret: process.env.SESSION_SECRET_KEY, // Use dynamic secret key from environment variables
     resave: false,
     saveUninitialized: false,
     cookie: {
   
-      domain:'.onrender.com',
+
       secure: true,          // MUST be true when using HTTPS (Render is HTTPS)
       sameSite: 'None',      // MUST be 'none' to allow cross-origin
       httpOnly: true,        // Recommended to prevent XSS
