@@ -10,6 +10,15 @@ const pgSession = require("connect-pg-simple")(session);
 
 const app = express();
 
+const { Pool } = require('pg');
+
+const yourPostgresPool = new Pool({
+  user: 'postgres',
+  host: 'db.hcdbzbgpqonluaqmwvdo.supabase.co',
+  database: 'postgres',
+  password: 'dD2Lp8ymDiAx%2B2',
+  port: 5432,
+});
 
 // app.use(morgan("dev"));
 
@@ -30,6 +39,10 @@ app.use(cors(corsOptions));
 // Session middleware
 app.use(
   session({
+    store: new pgSession({
+      pool: yourPostgresPool,  // Ensure that the pool is connected
+      tableName: 'session',    // Table to store sessions (must be created in DB)
+    }),
     secret: process.env.SESSION_SECRET_KEY, // Use dynamic secret key from environment variables
     resave: false,
     saveUninitialized: false,
