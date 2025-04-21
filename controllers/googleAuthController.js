@@ -59,7 +59,7 @@ const googleAuthController = {
           console.error("Login error:", err);
           return res.redirect("/auth/google");
         }
-
+  console.log("Session ID (connect.sid):", req.sessionID);
         console.log("User logged in successfully");
           console.log("User after login:", req.user); 
         console.log("Session after login:", req.session);
