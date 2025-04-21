@@ -18,6 +18,9 @@ const yourPostgresPool = new Pool({
   database: 'postgres',
   password: 'dD2Lp8ymDiAx%2B2',
   port: 5432,
+    logging: (msg) => {
+    console.log('PG Connection Log:', msg);
+  },
 });
 
 // app.use(morgan("dev"));
