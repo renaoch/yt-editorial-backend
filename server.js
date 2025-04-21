@@ -9,6 +9,7 @@ const cors = require("cors");
 const pgSession = require("connect-pg-simple")(session);
 
 const app = express();
+app.set('trust proxy', 1); 
 
 
 // app.use(morgan("dev"));
