@@ -52,16 +52,16 @@ const googleAuthController = {
       console.log("Google OAuth successful");
       console.log("User returned from Google:", user);
       console.log("Info returned from Google:", info);
- req.user = user;
+      req.user = user;
       req.logIn(user, async (err) => {
         if (err) {
           console.error("Login error occurred");
           console.error("Login error:", err);
           return res.redirect("/auth/google");
         }
-  console.log("Session ID (connect.sid):", req.sessionID);
+        console.log("Session ID (connect.sid):", req.sessionID);
         console.log("User logged in successfully");
-          console.log("User after login:", req.user); 
+        console.log("User after login:", req.user);
         console.log("Session after login:", req.session);
 
         if (info?.accessToken) {
@@ -116,7 +116,7 @@ const googleAuthController = {
           console.log("Session destroyed successfully");
         }
 
-        res.redirect(`${process.env.BASE_URL}/login`);
+        res.redirect(`${process.env.FE_BASE_URL}`);
       });
     });
   },

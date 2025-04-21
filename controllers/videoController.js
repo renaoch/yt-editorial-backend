@@ -6,15 +6,17 @@ const supabase = createClient(
   process.env.SUPABASE_ANON_KEY
 );
 
+const { sendNotification } = require("../services/notificationService");
+
 exports.uploadVideo = async (req, res) => {
   try {
     const file = req.file;
     const userId = req.user._id;
     const role = req.user.role;
     const taskId = req.body.task_id;
-    let tags = req.body.tags || null;
+    const tags = req.body.tags || null;
     const notes = req.body.notes || null;
-
+    const creatorId = req.body.creatorId;
     if (!file) {
       return res
         .status(400)
@@ -67,9 +69,15 @@ exports.uploadVideo = async (req, res) => {
         },
       ])
       .select("*");
-
+    console.log("creatorID:", creatorId);
     if (error) throw error;
-
+    await sendNotification({
+      to: creatorId,
+      title: "Task Completed",
+      body: `The task  has been completed:`,
+      type: "task-create",
+      showToast: true,
+    });
     return res.json({
       success: true,
       message: "Video uploaded successfully",
@@ -150,5 +158,32 @@ exports.secureStream = async (req, res) => {
   } catch (err) {
     console.error("Video stream error:", err.message);
     res.status(500).send("Internal error or video not found.");
+  }
+};
+exports.fetchVideoVersions = async (req, res) => {
+  const { taskId } = req.body;
+
+  if (!taskId) {
+    return res
+      .status(400)
+      .json({ error: "taskId is required in the request body" });
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from("video_versions")
+      .select("*")
+      .eq("task_id", taskId)
+      .order("version_number", { ascending: false });
+
+    if (error) {
+      console.error("Supabase error:", error);
+      return res.status(500).json({ error: error.message });
+    }
+
+    return res.status(200).json({ versions: data });
+  } catch (err) {
+    console.error("Server error:", err);
+    return res.status(500).json({ error: "Internal server error" });
   }
 };

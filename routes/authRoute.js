@@ -10,8 +10,6 @@ const { checkUserStatus } = require("../controllers/checkUserController");
 
 router.get("/api/checkUser",getAuthenticatedUser, checkUserStatus);
 
-module.exports = router;
-
 router.get("/role", ensureRoleNotAssigned, (req, res) => {
   res.render("roleSelection");
 });
@@ -22,7 +20,7 @@ router.get("/auth/google/editor", googleAuthController.googleAuthEditor);
 
 router.get("/auth/google/callback", googleAuthController.googleCallback);
 
-router.get("/logout", googleAuthController.logout);
+router.post("/logout", googleAuthController.logout);
 
 router.post("/signup", signup);
 

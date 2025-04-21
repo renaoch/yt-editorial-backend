@@ -5,12 +5,10 @@ const youtubeController = require("../controllers/youtubeController");
 const multer = require("multer");
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 1000 * 1024 * 1024 }, 
+  limits: { fileSize: 1000 * 1024 * 1024 },
 });
 
-
 const router = express.Router();
-
 
 router.post(
   "/upload-video",
@@ -30,6 +28,12 @@ router.post(
   "/upload-youtube",
   getAuthenticatedUser,
   youtubeController.approveAndUploadToYouTube
+);
+
+router.post(
+  "/video-versions",
+  getAuthenticatedUser,
+  videoController.fetchVideoVersions
 );
 
 module.exports = router;

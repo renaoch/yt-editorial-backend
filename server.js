@@ -9,8 +9,7 @@ const cors = require("cors");
 const pgSession = require("connect-pg-simple")(session);
 
 const app = express();
-app.set('trust proxy', 1); 
-
+app.set('trust proxy', 1);
 
 // app.use(morgan("dev"));
 
@@ -22,31 +21,33 @@ app.use(express.json());
 
 // CORS options
 const corsOptions = {
-  origin: ["https://yt-editorial-backend.onrender.com", "http://localhost:5173","https://yt-editorial-frontend.onrender.com","https://yt-editorial-client-b0w17ezeq-chhetriprems-projects.vercel.app","https://yt-editorial-frontend-3ym07qqca-renaochs-projects.vercel.app","https://yt-editorial-frontend.vercel.app"], // Use dynamic frontend URL from environment variables
+  origin: [
+    "https://yt-editorial-backend.onrender.com",
+    "http://localhost:5173",
+    "https://yt-editorial-frontend.onrender.com",
+    "https://yt-editorial-client-b0w17ezeq-chhetriprems-projects.vercel.app",
+    "https://yt-editorial-frontend-3ym07qqca-renaochs-projects.vercel.app",
+    "https://yt-editorial-frontend.vercel.app",
+  ], // Use dynamic frontend URL from environment variables
   methods: "GET,POST,PUT,DELETE,PATCH",
-  credentials: true, 
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
 // Session middleware
 app.use(
   session({
-
     secret: process.env.SESSION_SECRET_KEY, // Use dynamic secret key from environment variables
     resave: false,
     saveUninitialized: false,
     cookie: {
-  
-
-      secure: true,          // MUST be true when using HTTPS (Render is HTTPS)
-      sameSite: 'None',      // MUST be 'none' to allow cross-origin
-      httpOnly: true,        // Recommended to prevent XSS
-      maxAge: 24 * 60 * 60 * 1000 // Optional: 1 day
-    }
+      secure: true, // MUST be true when using HTTPS (Render is HTTPS)
+      sameSite: "None", // MUST be 'none' to allow cross-origin
+      httpOnly: true, // Recommended to prevent XSS
+      maxAge: 24 * 60 * 60 * 1000, // Optional: 1 day
+    },
   })
 );
-
-app.use(express.static(path.join(__dirname, "public")));
 
 // Passport middleware
 app.use(passport.initialize());
