@@ -14,15 +14,18 @@ const { Pool } = require('pg');
 
 const yourPostgresPool = new Pool({
   user: 'postgres',
-  host: 'db.hcdbzbgpqonluaqmwvdo.supabase.co',
+  host: 'db.hcdbzbgpqonluaqmwvdo.supabase.co', // This should already resolve to IPv4 or IPv6
   database: 'postgres',
-  password: 'dD2Lp8ymDiAx%2B2',
+  password: 'dD2Lp8ymDiAx+B2',
   port: 5432,
-    logging: (msg) => {
-    console.log('PG Connection Log:', msg);
+  connectionString: process.env.SUPABASE_CONNECTION_KEY, // Standard URI connection
+  ssl: {
+    rejectUnauthorized: false,
   },
+  // Optionally set this to force using IPv4
+  // pg will automatically resolve this
+  client_encoding: 'utf8',
 });
-
 // app.use(morgan("dev"));
 
 // Passport Config
