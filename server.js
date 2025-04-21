@@ -6,7 +6,7 @@ const path = require("path");
 const connectDB = require("./config/connectDB");
 const morgan = require("morgan");
 const cors = require("cors");
-const pg = require("connect-pg-simple")(session);
+const pgSession = require("connect-pg-simple")(session);
 
 const app = express();
 
