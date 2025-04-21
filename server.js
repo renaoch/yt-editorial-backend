@@ -29,7 +29,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 // Session middleware
 app.use(
-  session({store:new pgSession({conString:process.env.SUPABASE_CONNECTION_KEY,createTableIfMissing:true}),
+  session({
     secret: process.env.SESSION_SECRET_KEY, // Use dynamic secret key from environment variables
     resave: false,
     saveUninitialized: false,
