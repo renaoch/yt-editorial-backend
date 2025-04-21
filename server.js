@@ -10,22 +10,7 @@ const pgSession = require("connect-pg-simple")(session);
 
 const app = express();
 
-const { Pool } = require('pg');
 
-const yourPostgresPool = new Pool({
-  user: 'postgres',
-  host: 'db.hcdbzbgpqonluaqmwvdo.supabase.co', // This should already resolve to IPv4 or IPv6
-  database: 'postgres',
-  password: 'dD2Lp8ymDiAx+B2',
-  port: 5432,
-  connectionString: process.env.SUPABASE_CONNECTION_KEY, // Standard URI connection
-  ssl: {
-    rejectUnauthorized: false,
-  },
-  // Optionally set this to force using IPv4
-  // pg will automatically resolve this
-  client_encoding: 'utf8',
-});
 // app.use(morgan("dev"));
 
 // Passport Config
@@ -45,10 +30,7 @@ app.use(cors(corsOptions));
 // Session middleware
 app.use(
   session({
-    store: new pgSession({
-      pool: yourPostgresPool,  // Ensure that the pool is connected
-      tableName: 'session',    // Table to store sessions (must be created in DB)
-    }),
+
     secret: process.env.SESSION_SECRET_KEY, // Use dynamic secret key from environment variables
     resave: false,
     saveUninitialized: false,
